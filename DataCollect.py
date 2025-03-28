@@ -3,14 +3,14 @@ from bs4 import BeautifulSoup
 import pandas as pd
 import time
 
-def scrape_linkedin_jobs(pages=5):
+def scrape_linkedin_jobs(search_term, location, pages=5):
     jobs_data = []
     
     for page in range(1, pages+1):
-        url=f"https://www.linkedin.com/jobs/search/?keywords=data%20analayst%20jobs%20india&origin=SWITCH_SEARCH_VERTICAL&start={(page-1)*25}"
+        url = f"https://www.linkedin.com/jobs/search/?keywords={search_term}&location={location}&start={(page-1)*25}"
         
         headers = {
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36"
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36"
         }
         
         response = requests.get(url, headers=headers)
@@ -45,13 +45,5 @@ def scrape_linkedin_jobs(pages=5):
     return jobs_data
 
 # Example usage
-data_analyst_jobs = scrape_linkedin_jobs()
+data_analyst_jobs = scrape_linkedin_jobs("data analyst", "United States")
 df = pd.DataFrame(data_analyst_jobs)
-# Save to CSV
-df.to_csv('linkedin_data_analyst_jobs.csv', index=False)
-
-# Or save to SQLite database
-import sqlite3
-conn = sqlite3.connect('linkedin_jobs.db')
-df.to_sql('data_analyst_jobs', conn, if_exists='replace', index=False)
-conn.close()
