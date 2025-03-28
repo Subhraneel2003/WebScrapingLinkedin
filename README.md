@@ -83,4 +83,4 @@ This project is for educational purposes. Always respect website terms of servic
 
 ## License
 
-MIT License
+[MIT License](LICENSE)
